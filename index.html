@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free tools by Arisphere that run right in your browser. Your files never leave your device.">
+    <title>Arisphere Tools</title>
+    <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 20px;
+        }
+
+        h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--gray-400);
+            margin-bottom: 32px;
+        }
+
+        .tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .tool {
+            display: block;
+            padding: 24px;
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: border-color 0.15s, transform 0.15s;
+        }
+
+        .tool:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .tool h2 {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .tool span {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a class="site-logo" href="https://arisphere.net"><img src="assets/brand/logo.svg" alt="" width="40" height="28">Arisphere</a>
+        <nav>
+            <a href="https://arisphere.net/free-tools">All free tools</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Arisphere Tools</h1>
+        <p class="subtitle">Small tools that run entirely in your browser. Your files are never uploaded anywhere.</p>
+
+        <!-- Add a card here for each new tool, and the same card on arisphere.net/free-tools. -->
+        <div class="tools">
+            <a class="tool" href="pdf-editor/">
+                <h2>PDF Editor</h2>
+                <p>Merge, reorder, rotate and delete pages, then add text, highlights, drawings, images and white-out.</p>
+                <span>Open tool &rarr;</span>
+            </a>
+        </div>
+    </main>
+
+    <footer class="site-footer">&copy; 2026 Ari's Sphere</footer>
+</body>
+</html>

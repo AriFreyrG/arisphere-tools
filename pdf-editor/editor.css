@@ -1,0 +1,353 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 10px 16px;
+    background: var(--dark-light);
+    border-bottom: 1px solid var(--border);
+}
+
+.toolbar-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.toolbar-end {
+    margin-left: auto;
+}
+
+.toolbar .btn {
+    padding: 6px 12px;
+}
+
+.tool-btn.is-active {
+    border-color: var(--primary);
+    background: rgba(217, 119, 6, 0.2);
+    color: var(--white);
+}
+
+.field select,
+.field input[type="color"] {
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--dark);
+    color: var(--gray-300);
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.field select {
+    padding: 0 8px;
+}
+
+.field input[type="color"] {
+    width: 40px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.zoom-label {
+    min-width: 48px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-400);
+}
+
+/* Workspace */
+.workspace {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+.sidebar {
+    width: 168px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    background: rgba(15, 23, 42, 0.6);
+    border-right: 1px solid var(--border);
+}
+
+.thumbs {
+    list-style: none;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.thumb {
+    position: relative;
+    padding: 6px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}
+
+.thumb:hover {
+    background: var(--surface);
+}
+
+.thumb.is-current {
+    border-color: var(--primary);
+}
+
+.thumb.is-dragging {
+    opacity: 0.4;
+}
+
+.thumb.drop-before {
+    box-shadow: 0 -4px 0 var(--primary-light);
+}
+
+.thumb.drop-after {
+    box-shadow: 0 4px 0 var(--primary-light);
+}
+
+.thumb canvas {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto 4px;
+    background: var(--white);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.viewer {
+    flex: 1;
+    overflow: auto;
+    padding: 24px;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Auto margins centre the page but, unlike justify-content, still let a
+   page wider than the viewer scroll to its left edge. */
+.viewer > * {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.viewer.is-dragover .dropzone {
+    border-color: var(--primary-light);
+    background: rgba(217, 119, 6, 0.08);
+}
+
+.dropzone {
+    max-width: 520px;
+    margin-top: 8vh;
+    padding: 48px 32px;
+    text-align: center;
+    border: 2px dashed var(--gray-600);
+    border-radius: var(--radius);
+}
+
+.dropzone h1 {
+    color: var(--white);
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.privacy-note {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: var(--gray-400);
+}
+
+.page-wrap {
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    background: var(--white);
+}
+
+.page-wrap canvas {
+    display: block;
+}
+
+/* Annotations drawn on top of the page */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.overlay[data-tool="text"] {
+    cursor: text;
+}
+
+.overlay[data-tool="highlight"],
+.overlay[data-tool="whiteout"],
+.overlay[data-tool="draw"] {
+    cursor: crosshair;
+}
+
+.annot {
+    position: absolute;
+    transform-origin: 0 0;
+    cursor: move;
+}
+
+.overlay:not([data-tool="select"]) .annot {
+    pointer-events: none;
+}
+
+.overlay[data-tool="text"] .annot-text {
+    pointer-events: auto;
+    cursor: text;
+}
+
+.annot.is-selected {
+    outline: 1.5px dashed var(--primary);
+    outline-offset: 2px;
+}
+
+.annot-text {
+    white-space: pre;
+    line-height: 1.2;
+    min-width: 4px;
+}
+
+.annot-text[contenteditable="true"] {
+    cursor: text;
+    outline: 1.5px solid var(--primary);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.annot-rect-highlight {
+    background: rgba(253, 224, 71, 0.45);
+    mix-blend-mode: multiply;
+}
+
+.annot-rect-whiteout {
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.annot-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.annot-draw svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.resize-handle {
+    position: absolute;
+    right: -7px;
+    bottom: -7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--primary);
+    border: 2px solid var(--white);
+    cursor: nwse-resize;
+}
+
+.status {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--gray-800);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-size: 0.9rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.status.is-visible {
+    opacity: 1;
+}
+
+.status.is-error {
+    border-color: var(--danger);
+}
+
+@media (max-width: 720px) {
+    /* One scrollable row keeps the page area large on phones. */
+    .toolbar,
+    .toolbar-group {
+        flex-wrap: nowrap;
+    }
+
+    .toolbar {
+        overflow-x: auto;
+        gap: 12px;
+    }
+
+    .toolbar .btn {
+        white-space: nowrap;
+    }
+
+    .toolbar-end {
+        margin-left: 0;
+    }
+
+    .workspace {
+        flex-direction: column-reverse;
+    }
+
+    .sidebar {
+        width: auto;
+        height: 130px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-top: 1px solid var(--border);
+    }
+
+    .thumbs {
+        flex-direction: row;
+        height: 100%;
+    }
+
+    .thumb canvas {
+        max-height: 80px;
+        width: auto;
+    }
+
+    .viewer {
+        padding: 12px;
+    }
+}

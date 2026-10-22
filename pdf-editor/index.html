@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Everything runs locally: no request may leave this site, so files can't either. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' data:; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="description" content="Free PDF editor that runs in your browser. Merge, reorder, rotate and delete pages, add text, highlights, drawings and images. Your files are never uploaded.">
+    <title>PDF Editor - Arisphere Tools</title>
+    <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="editor.css">
+    <script src="../vendor/pdf-lib/pdf-lib.min.js"></script>
+    <script type="module" src="editor.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="site-logo" href="https://arisphere.net"><img src="../assets/brand/logo.svg" alt="" width="40" height="28">Arisphere</a>
+        <nav>
+            <a href="https://arisphere.net/free-tools">All free tools</a>
+        </nav>
+    </header>
+
+    <div class="toolbar" role="toolbar" aria-label="PDF editor">
+        <div class="toolbar-group">
+            <label class="btn btn-primary" for="file-open">Open PDF</label>
+            <input id="file-open" type="file" accept="application/pdf,.pdf" hidden>
+            <label class="btn" id="add-pdf-label" for="file-add" title="Append the pages of other PDFs">Add PDF</label>
+            <input id="file-add" type="file" accept="application/pdf,.pdf" multiple hidden>
+        </div>
+
+        <div class="toolbar-group" id="tool-buttons" aria-label="Tools">
+            <button class="btn tool-btn is-active" data-tool="select" title="Select and move (V)">Select</button>
+            <button class="btn tool-btn" data-tool="text" title="Add text (T)">Text</button>
+            <button class="btn tool-btn" data-tool="highlight" title="Highlight (H)">Highlight</button>
+            <button class="btn tool-btn" data-tool="whiteout" title="Cover with a white box (W). This hides content but does not delete it, so do not use it to redact private information.">White-out</button>
+            <button class="btn tool-btn" data-tool="draw" title="Draw freehand (D)">Draw</button>
+            <label class="btn" for="image-input" title="Place a PNG or JPG, such as a signature">Image</label>
+            <input id="image-input" type="file" accept="image/png,image/jpeg" hidden>
+        </div>
+
+        <div class="toolbar-group" aria-label="Style">
+            <label class="field" title="Colour">
+                <span class="sr-only">Colour</span>
+                <input id="opt-color" type="color" value="#111827">
+            </label>
+            <label class="field" title="Text size or line width">
+                <span class="sr-only">Size</span>
+                <select id="opt-size">
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12" selected>12</option>
+                    <option value="14">14</option>
+                    <option value="18">18</option>
+                    <option value="24">24</option>
+                    <option value="36">36</option>
+                    <option value="48">48</option>
+                </select>
+            </label>
+            <label class="field" title="Font">
+                <span class="sr-only">Font</span>
+                <select id="opt-font">
+                    <option value="Helvetica" selected>Sans</option>
+                    <option value="TimesRoman">Serif</option>
+                    <option value="Courier">Mono</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="toolbar-group" aria-label="Page">
+            <button class="btn" id="undo" title="Undo (Ctrl+Z)" disabled>Undo</button>
+            <button class="btn" id="redo" title="Redo (Ctrl+Shift+Z)" disabled>Redo</button>
+            <button class="btn" id="rotate-left" title="Rotate page left">&#x21BA;</button>
+            <button class="btn" id="rotate-right" title="Rotate page right">&#x21BB;</button>
+            <button class="btn" id="delete-page" title="Delete page">Delete page</button>
+            <button class="btn" id="zoom-out" title="Zoom out">&minus;</button>
+            <span id="zoom-label" class="zoom-label">100%</span>
+            <button class="btn" id="zoom-in" title="Zoom in">+</button>
+        </div>
+
+        <div class="toolbar-group toolbar-end">
+            <button class="btn btn-primary" id="download" disabled>Download PDF</button>
+        </div>
+    </div>
+
+    <div class="workspace">
+        <aside class="sidebar" aria-label="Pages">
+            <ol id="thumbs" class="thumbs"></ol>
+        </aside>
+
+        <main id="viewer" class="viewer">
+            <div id="dropzone" class="dropzone">
+                <h1>PDF Editor</h1>
+                <p>Drop a PDF here, or use <strong>Open PDF</strong>.</p>
+                <p class="privacy-note">Your file stays on your device. It is opened and edited in this browser tab and is never uploaded.</p>
+            </div>
+            <div id="page-wrap" class="page-wrap" hidden>
+                <canvas id="page-canvas"></canvas>
+                <div id="overlay" class="overlay"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+</body>
+</html>

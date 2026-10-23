@@ -1,0 +1,36 @@
+.preview-panel {
+    position: sticky;
+    top: 16px;
+}
+
+.qr-frame {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    border-radius: var(--radius);
+    /* A checkerboard shows when the background is transparent. */
+    background: repeating-conic-gradient(#e5e7eb 0% 25%, #ffffff 0% 50%) 50% / 20px 20px;
+}
+
+.qr-frame canvas {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 1;
+    image-rendering: pixelated;
+}
+
+.qr-frame.is-empty canvas {
+    opacity: 0.15;
+}
+
+#message {
+    margin-top: 12px;
+}
+
+@media (max-width: 760px) {
+    .preview-panel {
+        position: static;
+    }
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Everything runs locally: no request may leave this site. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="description" content="Free favicon generator. Make a site icon from an image, a letter or emoji, or draw it as pixel art, then download favicon.ico and every PNG size. Runs in your browser.">
+    <title>Favicon Generator - Arisphere Tools</title>
+    <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="favicon.css">
+    <script type="module" src="favicon.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="site-logo" href="https://arisphere.net"><img src="../assets/brand/logo.svg" alt="" width="40" height="28">Arisphere</a>
+        <nav>
+            <a href="../">Tools</a>
+            <a href="https://arisphere.net/free-tools">All free tools</a>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <h1>Favicon Generator</h1>
+        <p class="tool-intro">Make the little icon that shows in browser tabs and on phone home screens. Start from an image, a letter or emoji, or draw it pixel by pixel.</p>
+
+        <div class="tool-layout">
+            <div>
+                <section class="panel" aria-labelledby="source-heading">
+                    <h2 id="source-heading">Icon</h2>
+                    <div class="tabs" role="tablist" aria-label="How to make the icon">
+                        <button role="tab" aria-selected="true" data-mode="text">Letter or emoji</button>
+                        <button role="tab" aria-selected="false" data-mode="image">Image</button>
+                        <button role="tab" aria-selected="false" data-mode="pixel">Pixel art</button>
+                    </div>
+
+                    <div data-form="text">
+                        <div class="form-row">
+                            <label class="form-field">Text
+                                <input type="text" id="text" value="A" maxlength="4" spellcheck="false">
+                            </label>
+                            <label class="form-field">Colour
+                                <input type="color" id="text-color" value="#ffffff">
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-field">Font
+                                <select id="text-font">
+                                    <option value="sans" selected>Sans</option>
+                                    <option value="serif">Serif</option>
+                                    <option value="mono">Mono</option>
+                                    <option value="rounded">Rounded</option>
+                                </select>
+                            </label>
+                            <label class="form-field">Weight
+                                <select id="text-weight">
+                                    <option value="400">Regular</option>
+                                    <option value="700">Bold</option>
+                                    <option value="900" selected>Black</option>
+                                </select>
+                            </label>
+                        </div>
+                        <p class="hint">One or two characters read best at 16 pixels.</p>
+                    </div>
+
+                    <div data-form="image" hidden>
+                        <label class="form-field">Image
+                            <input type="file" id="image-file" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/gif">
+                        </label>
+                        <p class="hint">A square image works best. SVG stays sharp at every size.</p>
+                    </div>
+
+                    <div data-form="pixel" hidden>
+                        <div class="form-row">
+                            <label class="form-field">Grid
+                                <select id="grid-size">
+                                    <option value="16" selected>16 &times; 16</option>
+                                    <option value="32">32 &times; 32</option>
+                                </select>
+                            </label>
+                            <label class="form-field">Colour
+                                <input type="color" id="pen-color" value="#d97706">
+                            </label>
+                        </div>
+                        <div class="swatches" id="swatches" aria-label="Palette"></div>
+                        <div class="tabs pixel-tools" role="radiogroup" aria-label="Drawing tool">
+                            <button role="radio" aria-selected="true" data-pixel-tool="pen">Pen</button>
+                            <button role="radio" aria-selected="false" data-pixel-tool="eraser">Eraser</button>
+                            <button role="radio" aria-selected="false" data-pixel-tool="fill">Fill</button>
+                        </div>
+                        <div class="actions pixel-actions">
+                            <label class="btn" for="trace-file">Start from an image</label>
+                            <input type="file" id="trace-file" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/gif" hidden>
+                            <button class="btn" id="pixel-undo" disabled>Undo</button>
+                            <button class="btn" id="pixel-clear">Clear</button>
+                        </div>
+                        <p class="hint">Draw on the big grid. Right-click or hold Shift to erase.</p>
+                    </div>
+                </section>
+
+                <section class="panel" aria-labelledby="style-heading">
+                    <h2 id="style-heading">Background</h2>
+                    <div class="form-row">
+                        <label class="form-field">Colour
+                            <input type="color" id="bg" value="#d97706">
+                        </label>
+                        <label class="form-field">Shape
+                            <select id="shape">
+                                <option value="0">Square</option>
+                                <option value="0.25" selected>Rounded</option>
+                                <option value="1">Circle</option>
+                            </select>
+                        </label>
+                    </div>
+                    <label class="check form-field"><input type="checkbox" id="transparent"> Transparent background</label>
+                    <label class="form-field"><span>Padding: <span id="padding-label">10%</span></span>
+                        <input type="range" id="padding" min="0" max="30" step="1" value="10">
+                    </label>
+                    <label class="form-field">Site name (for the web app manifest, optional)
+                        <input type="text" id="site-name" placeholder="My Website">
+                    </label>
+                </section>
+            </div>
+
+            <section class="panel preview-panel" aria-label="Preview">
+                <div class="stage" id="stage">
+                    <canvas id="big" width="512" height="512" aria-label="Icon preview"></canvas>
+                </div>
+
+                <div class="sizes" aria-label="Actual sizes">
+                    <figure><canvas data-size="16"></canvas><figcaption>16</figcaption></figure>
+                    <figure><canvas data-size="32"></canvas><figcaption>32</figcaption></figure>
+                    <figure><canvas data-size="48"></canvas><figcaption>48</figcaption></figure>
+                    <figure><canvas data-size="180" data-apple></canvas><figcaption>180 (iPhone)</figcaption></figure>
+                </div>
+
+                <div class="tab-mocks" aria-hidden="true">
+                    <div class="tab-mock tab-mock--light"><canvas data-size="32" data-tab></canvas><span id="tab-title-light">My Website</span></div>
+                    <div class="tab-mock tab-mock--dark"><canvas data-size="32" data-tab></canvas><span id="tab-title-dark">My Website</span></div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="download-zip">Download all (.zip)</button>
+                    <button class="btn" id="download-ico">favicon.ico only</button>
+                </div>
+
+                <details class="snippet">
+                    <summary>HTML to add to your site</summary>
+                    <p class="hint">Unzip the files into your site's root folder, then paste this inside <code>&lt;head&gt;</code>.</p>
+                    <pre id="snippet"></pre>
+                    <button class="btn" id="copy-snippet">Copy</button>
+                </details>
+
+                <p class="privacy-line">Your image never leaves your device. The icons are drawn in this browser tab.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">&copy; 2026 Ari's Sphere</footer>
+</body>
+</html>

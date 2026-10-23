@@ -9,6 +9,8 @@ The tools are listed on the portfolio's [Free Tools page](https://arisphere.net/
 | Tool | Folder | What it does |
 | --- | --- | --- |
 | PDF Editor | [`pdf-editor/`](pdf-editor/) | Merge PDFs, reorder, rotate and delete pages, and add text, highlights, freehand drawing, images (such as a signature) and white-out boxes. |
+| QR Code Generator | [`qr-code/`](qr-code/) | QR codes for links, text, Wi-Fi, email and phone numbers, with colours and error correction. Downloads PNG or SVG. |
+| Favicon Generator | [`favicon/`](favicon/) | Builds favicon.ico, PNG icons, an Apple touch icon and a web app manifest from an image, a letter or emoji, or pixel art drawn on a grid. |
 
 ## Layout
 
@@ -45,5 +47,7 @@ The site is meant for GitHub Pages: Settings > Pages > Deploy from a branch > `m
 
 - [pdf.js](https://github.com/mozilla/pdf.js) 4.10.38 (Apache 2.0), in `vendor/pdfjs/`, renders pages.
 - [pdf-lib](https://github.com/Hopding/pdf-lib) 1.17.1 (MIT), in `vendor/pdf-lib/`, writes the edited PDF.
+- [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) 1.4.4 (MIT), in `vendor/qrcode-generator/`, encodes QR codes. Its licence is in the file header.
+- [fflate](https://github.com/101arrowz/fflate) 0.8.2 (MIT), in `vendor/fflate/`, zips the favicon files.
 
-Their licence files are kept next to them.
+Licence files are kept next to them.

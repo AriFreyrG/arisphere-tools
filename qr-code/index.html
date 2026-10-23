@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Everything runs locally: no request may leave this site. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="description" content="Free QR code generator for links, text, Wi-Fi, email and phone numbers. Download as PNG or SVG. Runs in your browser, nothing is uploaded.">
+    <title>QR Code Generator - Arisphere Tools</title>
+    <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="qr.css">
+    <script src="../vendor/qrcode-generator/qrcode.js"></script>
+    <script type="module" src="qr.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="site-logo" href="https://arisphere.net"><img src="../assets/brand/logo.svg" alt="" width="40" height="28">Arisphere</a>
+        <nav>
+            <a href="../">Tools</a>
+            <a href="https://arisphere.net/free-tools">All free tools</a>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <h1>QR Code Generator</h1>
+        <p class="tool-intro">Make a QR code for a link, some text, your Wi-Fi, an email or a phone number. It updates as you type.</p>
+
+        <div class="tool-layout">
+            <div>
+                <section class="panel" aria-labelledby="content-heading">
+                    <h2 id="content-heading">Content</h2>
+                    <div class="tabs" role="tablist" aria-label="What the code holds">
+                        <button role="tab" aria-selected="true" data-kind="text">Link or text</button>
+                        <button role="tab" aria-selected="false" data-kind="wifi">Wi-Fi</button>
+                        <button role="tab" aria-selected="false" data-kind="email">Email</button>
+                        <button role="tab" aria-selected="false" data-kind="phone">Phone</button>
+                    </div>
+
+                    <div data-form="text">
+                        <label class="form-field">Link or text
+                            <textarea id="text" placeholder="https://arisphere.net">https://arisphere.net</textarea>
+                        </label>
+                    </div>
+
+                    <div data-form="wifi" hidden>
+                        <label class="form-field">Network name
+                            <input type="text" id="wifi-ssid" autocomplete="off" spellcheck="false">
+                        </label>
+                        <label class="form-field">Password
+                            <input type="text" id="wifi-pass" autocomplete="off" spellcheck="false">
+                        </label>
+                        <div class="form-row">
+                            <label class="form-field">Security
+                                <select id="wifi-type">
+                                    <option value="WPA" selected>WPA / WPA2 / WPA3</option>
+                                    <option value="WEP">WEP</option>
+                                    <option value="nopass">None</option>
+                                </select>
+                            </label>
+                        </div>
+                        <label class="check"><input type="checkbox" id="wifi-hidden"> Hidden network</label>
+                    </div>
+
+                    <div data-form="email" hidden>
+                        <label class="form-field">Email address
+                            <input type="email" id="email-to" placeholder="name@example.com">
+                        </label>
+                        <label class="form-field">Subject (optional)
+                            <input type="text" id="email-subject">
+                        </label>
+                        <label class="form-field">Message (optional)
+                            <textarea id="email-body"></textarea>
+                        </label>
+                    </div>
+
+                    <div data-form="phone" hidden>
+                        <label class="form-field">Phone number
+                            <input type="tel" id="phone" placeholder="+354 555 1234">
+                        </label>
+                    </div>
+                </section>
+
+                <section class="panel" aria-labelledby="style-heading">
+                    <h2 id="style-heading">Style</h2>
+                    <div class="form-row">
+                        <label class="form-field">Colour
+                            <input type="color" id="fg" value="#0f172a">
+                        </label>
+                        <label class="form-field">Background
+                            <input type="color" id="bg" value="#ffffff">
+                        </label>
+                    </div>
+                    <label class="check form-field"><input type="checkbox" id="transparent"> Transparent background</label>
+                    <div class="form-row">
+                        <label class="form-field">Error correction
+                            <select id="ecc">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">High (25%)</option>
+                                <option value="H">Highest (30%)</option>
+                            </select>
+                        </label>
+                        <label class="form-field">Border
+                            <select id="margin">
+                                <option value="0">None</option>
+                                <option value="2">Small</option>
+                                <option value="4" selected>Standard</option>
+                                <option value="8">Large</option>
+                            </select>
+                        </label>
+                    </div>
+                    <label class="form-field"><span>PNG size: <span id="size-label">1024 px</span></span>
+                        <input type="range" id="size" min="256" max="4096" step="128" value="1024">
+                    </label>
+                    <p class="hint">Higher error correction keeps the code readable if it gets scratched or partly covered, but makes it denser.</p>
+                </section>
+            </div>
+
+            <section class="panel preview-panel" aria-label="Preview">
+                <div class="qr-frame">
+                    <canvas id="preview" width="512" height="512" aria-label="QR code preview"></canvas>
+                </div>
+                <p id="message" class="warning" role="status"></p>
+                <div class="actions">
+                    <button class="btn btn-primary" id="download-png">Download PNG</button>
+                    <button class="btn" id="download-svg">Download SVG</button>
+                    <button class="btn" id="copy">Copy image</button>
+                </div>
+                <p class="privacy-line">The code is made in your browser. Nothing you type is sent anywhere, and the codes don't expire.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">&copy; 2026 Ari's Sphere</footer>
+</body>
+</html>

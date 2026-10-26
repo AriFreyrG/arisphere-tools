@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Everything runs locally: no request may leave this site. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="description" content="Free LLM fit checker. Pick your Mac, iPhone, GPU or PC and see which open AI models fit in its memory, how fast they should run, and where to get them on Hugging Face.">
+    <title>LLM Fit Checker - Arisphere Tools</title>
+    <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="llm-fit.css">
+    <script type="module" src="llm-fit.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="site-logo" href="https://arisphere.net"><img src="../assets/brand/logo.svg" alt="" width="40" height="28">Arisphere</a>
+        <nav>
+            <a href="../">Tools</a>
+            <a href="https://arisphere.net/free-tools">All free tools</a>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <h1>LLM Fit Checker</h1>
+        <p class="tool-intro">Pick your device to see which open AI models fit in its memory and roughly how fast they will write. Each model links to its page on Hugging Face.</p>
+
+        <div class="tool-layout">
+            <div>
+                <section class="panel" aria-labelledby="device-heading">
+                    <h2 id="device-heading">Device</h2>
+                    <div class="combo">
+                        <label class="form-field" for="device-search">Search devices
+                            <input type="text" id="device-search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="device-list" autocomplete="off" spellcheck="false" placeholder="M4 Pro, iPhone 16, RTX 4090, 24 GB...">
+                        </label>
+                        <ul id="device-list" class="combo-list" role="listbox" aria-label="Devices" hidden></ul>
+                    </div>
+                    <dl id="device-facts" class="facts"></dl>
+                    <p id="device-hint" class="hint"></p>
+                </section>
+
+                <section class="panel" aria-labelledby="settings-heading">
+                    <h2 id="settings-heading">Settings</h2>
+                    <div class="form-row">
+                        <label class="form-field">Quantization
+                            <select id="quant"></select>
+                        </label>
+                        <label class="form-field">Context length
+                            <select id="context">
+                                <option value="2048">2K tokens</option>
+                                <option value="4096">4K tokens</option>
+                                <option value="8192" selected>8K tokens</option>
+                                <option value="16384">16K tokens</option>
+                                <option value="32768">32K tokens</option>
+                                <option value="131072">128K tokens</option>
+                            </select>
+                        </label>
+                    </div>
+                    <p id="quant-note" class="hint"></p>
+                    <div class="form-row">
+                        <label class="form-field">Memory for the model (GB)
+                            <input type="number" id="usable" min="0.5" max="2048" step="0.5">
+                        </label>
+                        <label class="form-field">Bandwidth (GB/s)
+                            <input type="number" id="bandwidth" min="1" max="20000" step="1">
+                        </label>
+                    </div>
+                    <p class="hint">These fill in from the device. Change them if your setup is different, for example after raising the GPU memory limit on a Mac.</p>
+                </section>
+
+            </div>
+
+            <section class="panel results-panel" aria-labelledby="results-heading">
+                <h2 id="results-heading">Models</h2>
+                <p id="summary" class="summary" role="status"></p>
+                <div class="result-controls">
+                    <label class="form-field grow">Filter models
+                        <input type="text" id="model-filter" autocomplete="off" spellcheck="false" placeholder="Name, maker, code, reasoning, vision...">
+                    </label>
+                    <label class="form-field">Sort by
+                        <select id="sort">
+                            <option value="best" selected>Biggest that fits</option>
+                            <option value="speed">Fastest</option>
+                            <option value="size">Smallest</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </label>
+                </div>
+                <label class="check"><input type="checkbox" id="fits-only"> Only show models that fit</label>
+                <ol id="models" class="models"></ol>
+                <details class="how">
+                    <summary>How the estimate works</summary>
+                    <p class="hint">A model fits when its weights at the chosen quantization, plus the cache for the context length and a little working space, fit in the memory the device can give it.</p>
+                    <p class="hint">Speed is estimated from memory bandwidth: writing each word means reading the model's active weights once, so bandwidth divided by that size gives tokens per second. Real speeds depend on the app (llama.cpp, LM Studio, Ollama, MLX) and are often within about 30% of this. Reading a long prompt first takes extra time.</p>
+                    <p class="hint">Mixture-of-experts models (marked MoE) need memory for all their weights but only read a few experts per token, so they are much faster than their size suggests.</p>
+                </details>
+                <p class="privacy-line">Model list last updated <span id="updated"></span>. Everything is worked out in your browser; nothing is sent anywhere.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">&copy; 2026 Ari's Sphere</footer>
+</body>
+</html>

@@ -1,0 +1,282 @@
+:root {
+    --good: #22c55e;
+    --tight: #fbbf24;
+    --bad: #ef4444;
+}
+
+.tool-layout {
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+}
+
+/* Device search with its drop-down list. */
+.combo {
+    position: relative;
+}
+
+.combo .form-field {
+    margin-bottom: 0;
+}
+
+.combo-list {
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 340px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--dark-light);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.combo-group {
+    padding: 8px 10px 4px;
+    color: var(--gray-400);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.combo-option {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--gray-300);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.combo-option small {
+    flex-shrink: 0;
+    color: var(--gray-400);
+}
+
+.combo-option[aria-selected="true"] {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.combo-option.is-active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.combo-option.is-active small {
+    color: var(--white);
+}
+
+.combo-empty {
+    padding: 8px 10px;
+    color: var(--gray-400);
+    font-size: 0.9rem;
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 14px 0 10px;
+}
+
+.facts div {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--dark);
+    border: 1px solid var(--border);
+}
+
+.facts dt {
+    color: var(--gray-400);
+    font-size: 0.75rem;
+}
+
+.facts dd {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.summary {
+    margin-bottom: 14px;
+    color: var(--gray-300);
+}
+
+.summary strong {
+    color: var(--white);
+}
+
+.result-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.result-controls .form-field {
+    margin-bottom: 0;
+}
+
+.result-controls .grow {
+    flex: 1 1 220px;
+}
+
+/* One row per model. */
+.models {
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.model {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 96px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--good);
+}
+
+.model.is-tight {
+    border-left-color: var(--tight);
+}
+
+.model.is-too-big {
+    border-left-color: var(--bad);
+    opacity: 0.6;
+}
+
+.model-name {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.model-meta {
+    color: var(--gray-400);
+    font-size: 0.8rem;
+}
+
+.model-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-top: 4px;
+    font-size: 0.8rem;
+}
+
+.badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--gray-400);
+    font-size: 0.7rem;
+    font-weight: 500;
+    vertical-align: 2px;
+}
+
+.mem-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.status {
+    font-weight: 600;
+    color: var(--good);
+}
+
+.is-tight .status {
+    color: var(--tight);
+}
+
+.is-too-big .status {
+    color: var(--bad);
+}
+
+.mem-bar {
+    height: 6px;
+    margin-top: 4px;
+    border-radius: 3px;
+    background: var(--gray-700);
+    overflow: hidden;
+}
+
+.mem-bar span {
+    display: block;
+    height: 100%;
+    background: var(--good);
+}
+
+.is-tight .mem-bar span {
+    background: var(--tight);
+}
+
+.is-too-big .mem-bar span {
+    background: var(--bad);
+}
+
+.speed {
+    text-align: right;
+}
+
+.speed strong {
+    display: block;
+    color: var(--white);
+    font-size: 1.15rem;
+    line-height: 1.2;
+}
+
+.speed small {
+    color: var(--gray-400);
+    font-size: 0.75rem;
+}
+
+.models-empty {
+    padding: 20px;
+    color: var(--gray-400);
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .model {
+        grid-template-columns: minmax(0, 1fr) 84px;
+    }
+
+    .model-mem {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+}
+
+.how {
+    margin-top: 16px;
+    font-size: 0.85rem;
+}
+
+.how summary {
+    color: var(--gray-300);
+    cursor: pointer;
+}
+
+.how p {
+    margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+    .tool-layout {
+        grid-template-columns: 1fr;
+    }
+}

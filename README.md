@@ -11,6 +11,7 @@ The tools are listed on the portfolio's [Free Tools page](https://arisphere.net/
 | PDF Editor | [`pdf-editor/`](pdf-editor/) | Merge PDFs, reorder, rotate and delete pages, and add text, highlights, freehand drawing, images (such as a signature) and white-out boxes. |
 | QR Code Generator | [`qr-code/`](qr-code/) | QR codes for links, text, Wi-Fi, email and phone numbers, with colours and error correction. Downloads PNG or SVG. |
 | Favicon Generator | [`favicon/`](favicon/) | Builds favicon.ico, PNG icons, an Apple touch icon and a web app manifest from an image, a letter or emoji, or pixel art drawn on a grid. |
+| LLM Fit Checker | [`llm-fit/`](llm-fit/) | Pick a device (Mac, iPhone, iPad, Android, GPU, mini PC or CPU-only PC) to see which open models fit its memory at a chosen quantization and context length, with an estimated speed and links to Hugging Face. Devices and models are in `llm-fit/data.js`. |
 
 ## Layout
 
